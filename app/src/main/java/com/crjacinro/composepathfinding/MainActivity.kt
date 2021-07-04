@@ -25,8 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.crjacinro.composepathfinding.ui.theme.ComposePathFindingTheme
 
-val initGridState = getGridWithClearBackground()
-    .addStartAndFinishGrids()
+private val state = State()
 
 @ExperimentalFoundationApi
 class MainActivity : ComponentActivity() {
@@ -35,7 +34,14 @@ class MainActivity : ComponentActivity() {
         setContent {
             ComposePathFindingTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    PathFindingApp()
+                    val currentGridState = remember { mutableStateOf(state.drawCurrentGridState()) }
+
+                    val onSingleGridClicked = { p: Position ->
+                        state.updateGridTypeAtPosition(p, GridType.WALL)
+                        currentGridState.value = state.drawCurrentGridState()
+                    }
+
+                    PathFindingApp(currentGridState.value, onSingleGridClicked)
                 }
             }
         }
@@ -44,18 +50,12 @@ class MainActivity : ComponentActivity() {
 
 @ExperimentalFoundationApi
 @Composable
-fun PathFindingApp() {
-    val currentGridState = remember { mutableStateOf(initGridState) }
-
-    val onSingleGridClicked = { p: Position ->
-        currentGridState.value[p.row][p.column] = GridData(GridType.WALL, p)
-    }
-
+fun PathFindingApp(grid: List<List<GridData>>, onClick: (Position) -> Unit) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        PathFindingGrid(currentGridState.value, onSingleGridClicked)
+        PathFindingUi(grid, onClick)
         Button(onClick = { }) {
             Text("Visualize")
         }
@@ -64,8 +64,14 @@ fun PathFindingApp() {
 
 @ExperimentalFoundationApi
 @Composable
+fun PathFindingUi(grid: List<List<GridData>>, onClick: (Position) -> Unit) {
+    PathFindingGrid(grid.toLinearGrid(), onClick)
+}
+
+@ExperimentalFoundationApi
+@Composable
 fun PathFindingGrid(
-    gridData: List<List<GridData>>,
+    gridData: List<GridData>,
     onClick: (Position) -> Unit
 ) {
     LazyVerticalGrid(
@@ -74,7 +80,7 @@ fun PathFindingGrid(
             .padding(4.dp)
             .border(BorderStroke(6.dp, Color.Black))
     ) {
-        items(gridData.toLinearGrid()) {
+        items(gridData) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Grid(it, onClick)
             }

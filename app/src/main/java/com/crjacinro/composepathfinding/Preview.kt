@@ -10,6 +10,6 @@ import com.crjacinro.composepathfinding.ui.theme.ComposePathFindingTheme
 @Composable
 fun DefaultPreview() {
     ComposePathFindingTheme {
-        PathFindingApp()
+
     }
 }
