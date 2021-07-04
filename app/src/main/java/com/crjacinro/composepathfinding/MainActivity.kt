@@ -17,12 +17,16 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.crjacinro.composepathfinding.ui.theme.ComposePathFindingTheme
+
+val initGridState = getGridWithClearBackground()
+    .addStartAndFinishGrids()
 
 @ExperimentalFoundationApi
 class MainActivity : ComponentActivity() {
@@ -41,15 +45,17 @@ class MainActivity : ComponentActivity() {
 @ExperimentalFoundationApi
 @Composable
 fun PathFindingApp() {
-    val bg = getGridWithClearBackground()
-        .addStartAndFinishGrids()
-        .toLinearGrid()
+    val currentGridState = remember { mutableStateOf(initGridState) }
+
+    val onSingleGridClicked = { p: Position ->
+        currentGridState.value[p.row][p.column] = GridData(GridType.WALL, p)
+    }
 
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        PathFindingGrid(bg)
+        PathFindingGrid(currentGridState.value, onSingleGridClicked)
         Button(onClick = { }) {
             Text("Visualize")
         }
@@ -58,26 +64,20 @@ fun PathFindingApp() {
 
 @ExperimentalFoundationApi
 @Composable
-fun PathFindingGrid(gridData: List<GridType>) {
+fun PathFindingGrid(
+    gridData: List<List<GridData>>,
+    onClick: (Position) -> Unit
+) {
     LazyVerticalGrid(
         cells = GridCells.Fixed(NUMBER_OF_COLUMNS),
         modifier = Modifier
             .padding(4.dp)
             .border(BorderStroke(6.dp, Color.Black))
     ) {
-        items(gridData) {
+        items(gridData.toLinearGrid()) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Grid(it)
+                Grid(it, onClick)
             }
         }
-    }
-}
-
-@ExperimentalFoundationApi
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    ComposePathFindingTheme {
-        PathFindingApp()
     }
 }

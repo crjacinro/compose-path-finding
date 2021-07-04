@@ -1,9 +1,6 @@
 package com.crjacinro.composepathfinding
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,18 +12,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Grid(gridType: GridType) {
+fun Grid(gridData: GridData, onClick: (Position) -> Unit) {
     val boxModifier = Modifier
         .padding(0.dp)
         .border(BorderStroke(1.dp, Color.Gray))
         .height(16.dp)
-        .background(getBackgroundByType(gridType))
+        .background(getBackgroundByType(gridData.type))
         .fillMaxWidth()
+        .clickable { onClick(gridData.position) }
 
     Box(modifier = boxModifier) {
-        if (gridType == GridType.START) {
+        if (gridData.type == GridType.START) {
             Image(painter = painterResource(R.drawable.ic_start), contentDescription = "")
-        } else if (gridType == GridType.FINISH) {
+        } else if (gridData.type == GridType.FINISH) {
             Image(painter = painterResource(R.drawable.ic_finish), contentDescription = "")
         }
     }
@@ -35,6 +33,8 @@ fun Grid(gridType: GridType) {
 private fun getBackgroundByType(gridType: GridType) =
     when (gridType) {
         GridType.BACKGROUND -> Color.White
+        GridType.WALL -> Color.Black
+        GridType.VISITED -> Color.Yellow
         else -> Color.White
     }
 
@@ -46,3 +46,8 @@ enum class GridType {
     BACKGROUND,
     VISITED,
 }
+
+data class GridData(
+    val type: GridType,
+    val position: Position
+)
