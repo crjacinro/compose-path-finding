@@ -14,6 +14,16 @@ fun getGridWithClearBackground(): MutableList<MutableList<GridType>> {
     return mutableGrid
 }
 
+fun MutableList<MutableList<GridType>>.addStartAndFinishGrids(): MutableList<MutableList<GridType>> {
+    val startPosition = Position((NUMBER_OF_ROWS / 2), (NUMBER_OF_COLUMNS / 4))
+    val finishPosition = Position((NUMBER_OF_ROWS / 2), (NUMBER_OF_COLUMNS / 4) * 3)
+
+    this[startPosition.row][startPosition.column] = GridType.START
+    this[finishPosition.row][finishPosition.column] = GridType.FINISH
+
+    return this
+}
+
 fun List<List<GridType>>.toLinearGrid(): List<GridType> {
     val mutableList = mutableListOf<GridType>()
     for (i in this.indices) {

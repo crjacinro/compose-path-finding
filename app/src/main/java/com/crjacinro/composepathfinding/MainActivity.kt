@@ -41,7 +41,9 @@ class MainActivity : ComponentActivity() {
 @ExperimentalFoundationApi
 @Composable
 fun PathFindingApp() {
-    val bg = getGridWithClearBackground().toLinearGrid()
+    val bg = getGridWithClearBackground()
+        .addStartAndFinishGrids()
+        .toLinearGrid()
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -65,7 +67,7 @@ fun PathFindingGrid(gridData: List<GridType>) {
     ) {
         items(gridData) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Grid(gridType = GridType.BACKGROUND)
+                Grid(it)
             }
         }
     }
