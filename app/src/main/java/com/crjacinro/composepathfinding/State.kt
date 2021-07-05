@@ -15,8 +15,20 @@ class State {
         return updatedGrid
     }
 
-    fun updateCellAtPosition(p: Position, cellType: CellType) {
+    fun getCurrentGrid(): List<List<CellData>> = gridState
+
+    fun updateCellTypeAtPosition(p: Position, cellType: CellType) {
         gridState[p.row][p.column] = gridState[p.row][p.column].copy(type = cellType, position = p)
+    }
+
+    fun updateCellDistanceAtPosition(p: Position, distance: Int) {
+        gridState[p.row][p.column] =
+            gridState[p.row][p.column].copy(distance = distance, position = p)
+    }
+
+    fun updatePreviousShortestCellAtPosition(p: Position, cell: CellData) {
+        gridState[p.row][p.column] =
+            gridState[p.row][p.column].copy(previousShortestCell = cell, position = p)
     }
 }
 

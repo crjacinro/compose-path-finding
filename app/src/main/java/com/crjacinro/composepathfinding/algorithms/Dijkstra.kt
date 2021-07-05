@@ -1,19 +1,16 @@
 package com.crjacinro.composepathfinding.algorithms
 
-import com.crjacinro.composepathfinding.CellData
-import com.crjacinro.composepathfinding.CellType
-import com.crjacinro.composepathfinding.Position
-import com.crjacinro.composepathfinding.toLinearGrid
+import com.crjacinro.composepathfinding.*
 
 fun dijkstra(
-    grid: MutableList<MutableList<CellData>>,
+    gridState: State,
     start: Position,
     finish: Position
 ): List<CellData> {
-    grid[start.row][start.column].distance = 0
+    gridState.updateCellDistanceAtPosition(start, 0)
 
     val visitedNodesInOrder = mutableListOf<CellData>()
-    val unvisitedNodes = grid.toLinearGrid().toMutableList()
+    val unvisitedNodes = gridState.getCurrentGrid().toLinearGrid().toMutableList()
 
     while (unvisitedNodes.isNotEmpty()) {
         sortNodesByDistance(unvisitedNodes)
@@ -22,11 +19,11 @@ fun dijkstra(
         if (closestCell.type == CellType.WALL) continue
         if (closestCell.distance == Int.MAX_VALUE) return visitedNodesInOrder
 
-        grid[closestCell.position.row][closestCell.position.column].type = CellType.VISITED
+        gridState.updateCellTypeAtPosition(closestCell.position, CellType.VISITED)
         visitedNodesInOrder.add(closestCell)
 
         if (closestCell.isAtPosition(finish)) return visitedNodesInOrder
-        updateUnvisitedNeighbors(closestCell, grid)
+        updateUnvisitedNeighbors(closestCell, gridState)
     }
 
     return visitedNodesInOrder
@@ -46,20 +43,21 @@ fun sortNodesByDistance(unvisitedNodes: MutableList<CellData>) {
     unvisitedNodes.sortBy { it.distance }
 }
 
-fun updateUnvisitedNeighbors(cell: CellData, grid: MutableList<MutableList<CellData>>) {
-    val unvisitedNeighbors = getUnvisitedNeighbors(cell, grid)
+fun updateUnvisitedNeighbors(cell: CellData, gridState: State) {
+    val unvisitedNeighbors = getUnvisitedNeighbors(cell, gridState)
 
     for (neighbor in unvisitedNeighbors) {
-        grid[neighbor.position.row][neighbor.position.column].distance = neighbor.distance + 1
-        grid[neighbor.position.row][neighbor.position.column].previousShortestCell = neighbor
+        gridState.updateCellDistanceAtPosition(neighbor.position, neighbor.distance + 1)
+        gridState.updatePreviousShortestCellAtPosition(neighbor.position, neighbor)
     }
 }
 
 fun getUnvisitedNeighbors(
     cell: CellData,
-    grid: MutableList<MutableList<CellData>>
+    gridState: State
 ): List<CellData> {
     val neighbors = mutableListOf<CellData>()
+    val grid = gridState.getCurrentGrid()
     val (row, column) = cell.position
 
     if (row > 0) neighbors.add(grid[row - 1][column])

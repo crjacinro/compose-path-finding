@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
                     val currentGridState = remember { mutableStateOf(state.drawCurrentGridState()) }
 
                     val onCellClicked = { p: Position ->
-                        state.updateCellAtPosition(p, CellType.WALL)
+                        state.updateCellTypeAtPosition(p, CellType.WALL)
                         currentGridState.value = state.drawCurrentGridState()
                     }
 
