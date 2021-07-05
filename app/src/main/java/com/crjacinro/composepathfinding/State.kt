@@ -1,9 +1,9 @@
 package com.crjacinro.composepathfinding
 
 class State {
-    private var gridState: MutableList<MutableList<GridData>> = getInitGridState()
+    private var gridState: MutableList<MutableList<CellData>> = getInitGridState()
 
-    fun drawCurrentGridState(): List<List<GridData>> {
+    fun drawCurrentGridState(): List<List<CellData>> {
         val updatedGrid = getInitGridState()
 
         for (i in 0 until updatedGrid.size) {
@@ -15,8 +15,8 @@ class State {
         return updatedGrid
     }
 
-    fun updateGridTypeAtPosition(p: Position, gridType: GridType) {
-        gridState[p.row][p.column] = gridState[p.row][p.column].copy(type = gridType, position = p)
+    fun updateGridTypeAtPosition(p: Position, cellType: CellType) {
+        gridState[p.row][p.column] = gridState[p.row][p.column].copy(type = cellType, position = p)
     }
 }
 

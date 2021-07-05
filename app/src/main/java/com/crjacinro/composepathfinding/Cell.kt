@@ -14,29 +14,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Grid(gridData: GridData, onClick: (Position) -> Unit) {
+fun Cell(cellData: CellData, onClick: (Position) -> Unit) {
     val boxModifier = Modifier
         .padding(0.dp)
         .border(BorderStroke(1.dp, Color.Gray))
         .height(16.dp)
-        .background(getBackgroundByType(gridData.type))
+        .background(getBackgroundByType(cellData.type))
         .fillMaxWidth()
-        .clickable { onClick(gridData.position) }
+        .clickable { onClick(cellData.position) }
 
     Box(modifier = boxModifier)
 }
 
-private fun getBackgroundByType(gridType: GridType) =
-    when (gridType) {
-        GridType.BACKGROUND -> Color.White
-        GridType.WALL -> Color.Black
-        GridType.VISITED -> Color.Yellow
-        GridType.START -> Color.Red
-        GridType.FINISH -> Color.Green
+private fun getBackgroundByType(cellType: CellType) =
+    when (cellType) {
+        CellType.BACKGROUND -> Color.White
+        CellType.WALL -> Color.Black
+        CellType.VISITED -> Color.Yellow
+        CellType.START -> Color.Red
+        CellType.FINISH -> Color.Green
     }
 
-
-enum class GridType {
+enum class CellType {
     START,
     FINISH,
     WALL,
@@ -44,7 +43,7 @@ enum class GridType {
     VISITED,
 }
 
-data class GridData(
-    val type: GridType,
+data class CellData(
+    val type: CellType,
     val position: Position
 )

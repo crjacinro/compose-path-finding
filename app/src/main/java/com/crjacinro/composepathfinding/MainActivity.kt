@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
                     val currentGridState = remember { mutableStateOf(state.drawCurrentGridState()) }
 
                     val onSingleGridClicked = { p: Position ->
-                        state.updateGridTypeAtPosition(p, GridType.WALL)
+                        state.updateGridTypeAtPosition(p, CellType.WALL)
                         currentGridState.value = state.drawCurrentGridState()
                     }
 
@@ -50,12 +50,12 @@ class MainActivity : ComponentActivity() {
 
 @ExperimentalFoundationApi
 @Composable
-fun PathFindingApp(grid: List<List<GridData>>, onClick: (Position) -> Unit) {
+fun PathFindingApp(cell: List<List<CellData>>, onClick: (Position) -> Unit) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        PathFindingUi(grid, onClick)
+        PathFindingUi(cell, onClick)
         Button(onClick = { }) {
             Text("Visualize")
         }
@@ -64,14 +64,14 @@ fun PathFindingApp(grid: List<List<GridData>>, onClick: (Position) -> Unit) {
 
 @ExperimentalFoundationApi
 @Composable
-fun PathFindingUi(grid: List<List<GridData>>, onClick: (Position) -> Unit) {
-    PathFindingGrid(grid.toLinearGrid(), onClick)
+fun PathFindingUi(cell: List<List<CellData>>, onClick: (Position) -> Unit) {
+    PathFindingGrid(cell.toLinearGrid(), onClick)
 }
 
 @ExperimentalFoundationApi
 @Composable
 fun PathFindingGrid(
-    gridData: List<GridData>,
+    cellData: List<CellData>,
     onClick: (Position) -> Unit
 ) {
     LazyVerticalGrid(
@@ -80,9 +80,9 @@ fun PathFindingGrid(
             .padding(4.dp)
             .border(BorderStroke(6.dp, Color.Black))
     ) {
-        items(gridData) {
+        items(cellData) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Grid(it, onClick)
+                Cell(it, onClick)
             }
         }
     }
