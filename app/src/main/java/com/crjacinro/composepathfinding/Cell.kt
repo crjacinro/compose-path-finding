@@ -30,7 +30,7 @@ private fun getBackgroundByType(cellType: CellType) =
     when (cellType) {
         CellType.BACKGROUND -> Color.White
         CellType.WALL -> Color.Black
-        CellType.VISITED -> Color.Yellow
+        CellType.VISITED -> Color.Blue
         CellType.START -> Color.Red
         CellType.FINISH -> Color.Green
     }

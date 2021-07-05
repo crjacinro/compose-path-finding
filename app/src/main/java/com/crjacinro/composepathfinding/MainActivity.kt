@@ -17,13 +17,16 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.crjacinro.composepathfinding.algorithms.dijkstra
 import com.crjacinro.composepathfinding.ui.theme.ComposePathFindingTheme
+import kotlinx.coroutines.delay
 
 private val state = State()
 
@@ -42,6 +45,12 @@ class MainActivity : ComponentActivity() {
                     }
 
                     PathFindingApp(currentGridState.value, onCellClicked)
+                    LaunchedEffect(Unit) {
+                        while (true) {
+                            delay(100.toLong())
+                            currentGridState.value = state.drawCurrentGridState()
+                        }
+                    }
                 }
             }
         }
@@ -56,7 +65,9 @@ fun PathFindingApp(cell: List<List<CellData>>, onClick: (Position) -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         PathFindingUi(cell, onClick)
-        Button(onClick = { }) {
+        Button(onClick = {
+            dijkstra(state)
+        }) {
             Text("Visualize")
         }
     }

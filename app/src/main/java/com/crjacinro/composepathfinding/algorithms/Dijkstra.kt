@@ -1,18 +1,16 @@
 package com.crjacinro.composepathfinding.algorithms
 
+import android.util.Log
 import com.crjacinro.composepathfinding.*
 
-fun dijkstra(
-    gridState: State,
-    start: Position,
-    finish: Position
-): List<CellData> {
-    gridState.updateCellDistanceAtPosition(start, 0)
+fun dijkstra(gridState: State): List<CellData> {
+    gridState.updateCellDistanceAtPosition(gridState.getStartPosition(), 0)
 
     val visitedNodesInOrder = mutableListOf<CellData>()
-    val unvisitedNodes = gridState.getCurrentGrid().toLinearGrid().toMutableList()
+    var unvisitedNodes = gridState.getCurrentGrid().toLinearGrid().toMutableList()
 
     while (unvisitedNodes.isNotEmpty()) {
+        Log.d("dijkstra", "test")
         sortNodesByDistance(unvisitedNodes)
 
         val closestCell = unvisitedNodes.shift()
@@ -22,8 +20,10 @@ fun dijkstra(
         gridState.updateCellTypeAtPosition(closestCell.position, CellType.VISITED)
         visitedNodesInOrder.add(closestCell)
 
-        if (closestCell.isAtPosition(finish)) return visitedNodesInOrder
+        if (closestCell.isAtPosition(gridState.getFinishPosition())) return visitedNodesInOrder
         updateUnvisitedNeighbors(closestCell, gridState)
+
+        unvisitedNodes = gridState.getCurrentGrid().toLinearGrid().toMutableList()
     }
 
     return visitedNodesInOrder
@@ -47,6 +47,7 @@ fun updateUnvisitedNeighbors(cell: CellData, gridState: State) {
     val unvisitedNeighbors = getUnvisitedNeighbors(cell, gridState)
 
     for (neighbor in unvisitedNeighbors) {
+        Log.d("dijkstra", "update")
         gridState.updateCellDistanceAtPosition(neighbor.position, neighbor.distance + 1)
         gridState.updatePreviousShortestCellAtPosition(neighbor.position, neighbor)
     }
