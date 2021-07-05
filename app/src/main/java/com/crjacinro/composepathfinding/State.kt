@@ -15,7 +15,7 @@ class State {
         return updatedGrid
     }
 
-    fun updateGridTypeAtPosition(p: Position, cellType: CellType) {
+    fun updateCellAtPosition(p: Position, cellType: CellType) {
         gridState[p.row][p.column] = gridState[p.row][p.column].copy(type = cellType, position = p)
     }
 }

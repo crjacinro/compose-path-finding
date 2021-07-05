@@ -36,12 +36,12 @@ class MainActivity : ComponentActivity() {
                 Surface(color = MaterialTheme.colors.background) {
                     val currentGridState = remember { mutableStateOf(state.drawCurrentGridState()) }
 
-                    val onSingleGridClicked = { p: Position ->
-                        state.updateGridTypeAtPosition(p, CellType.WALL)
+                    val onCellClicked = { p: Position ->
+                        state.updateCellAtPosition(p, CellType.WALL)
                         currentGridState.value = state.drawCurrentGridState()
                     }
 
-                    PathFindingApp(currentGridState.value, onSingleGridClicked)
+                    PathFindingApp(currentGridState.value, onCellClicked)
                 }
             }
         }

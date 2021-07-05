@@ -44,6 +44,8 @@ enum class CellType {
 }
 
 data class CellData(
-    val type: CellType,
-    val position: Position
+    var type: CellType,
+    val position: Position,
+    var distance: Int = Int.MAX_VALUE,
+    var previousShortestCell: CellData? = null
 )
