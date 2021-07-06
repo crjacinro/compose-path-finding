@@ -25,3 +25,21 @@ fun List<List<CellData>>.toLinearGrid(): MutableList<CellData> {
     }
     return mutableList
 }
+
+fun MutableList<CellData>.shift(): CellData {
+    val first = this.first()
+    this.removeAt(0)
+    return first
+}
+
+fun CellData.isAtPosition(position: Position) =
+    this.position.row == position.row && this.position.column == position.column
+
+fun MutableList<CellData>.findIndexByCell(cell: CellData): Int {
+    for (i in 0 until this.size) {
+        if (this[i].id == cell.id) {
+            return i
+        }
+    }
+    return -1
+}

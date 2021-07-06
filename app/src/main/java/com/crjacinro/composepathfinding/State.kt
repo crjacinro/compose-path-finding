@@ -1,7 +1,6 @@
 package com.crjacinro.composepathfinding
 
 class State {
-    var isAnimating = false
     private var gridState: MutableList<MutableList<CellData>>
 
     private val startPosition = Position((NUMBER_OF_ROWS / 2), (NUMBER_OF_COLUMNS / 4))
@@ -24,8 +23,6 @@ class State {
         return updatedGrid
     }
 
-
-    fun getStartPosition() = startPosition
     fun getFinishPosition() = finishPosition
 
     fun getCurrentGrid(): List<List<CellData>> = gridState
@@ -34,18 +31,9 @@ class State {
         gridState[p.row][p.column] = gridState[p.row][p.column].copy(type = cellType, position = p)
     }
 
-    fun updateCellDistanceAtPosition(p: Position, distance: Int) {
-        gridState[p.row][p.column] =
-            gridState[p.row][p.column].copy(distance = distance, position = p)
-    }
-
-    fun updatePreviousShortestCellAtPosition(p: Position, cell: CellData) {
-        gridState[p.row][p.column] =
-            gridState[p.row][p.column].copy(previousShortestCell = cell, position = p)
-    }
-
     private fun addStartAndFinishGrids() {
-        gridState[startPosition.row][startPosition.column] = CellData(CellType.START, startPosition)
+        gridState[startPosition.row][startPosition.column] =
+            CellData(CellType.START, startPosition, distance = 0)
         gridState[finishPosition.row][finishPosition.column] =
             CellData(CellType.FINISH, finishPosition)
     }

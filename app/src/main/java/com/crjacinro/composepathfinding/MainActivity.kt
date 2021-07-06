@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
                     PathFindingApp(currentGridState.value, onCellClicked)
                     LaunchedEffect(Unit) {
                         while (true) {
-                            delay(GAME_SPEED)
+                            delay(GAME_DELAY_IN_MS)
                             currentGridState.value = state.drawCurrentGridState()
                         }
                     }
