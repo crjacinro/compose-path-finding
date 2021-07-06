@@ -26,9 +26,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.crjacinro.composepathfinding.algorithms.dijkstra
 import com.crjacinro.composepathfinding.ui.theme.ComposePathFindingTheme
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 
 private val state = State()
+private val scope = CoroutineScope(Dispatchers.Main)
 
 @ExperimentalFoundationApi
 class MainActivity : ComponentActivity() {
@@ -41,19 +42,24 @@ class MainActivity : ComponentActivity() {
 
                     val onCellClicked = { p: Position ->
                         state.updateCellTypeAtPosition(p, CellType.WALL)
-                        currentGridState.value = state.drawCurrentGridState()
                     }
 
                     PathFindingApp(currentGridState.value, onCellClicked)
                     LaunchedEffect(Unit) {
                         while (true) {
-                            delay(100.toLong())
+                            delay(80.toLong())
                             currentGridState.value = state.drawCurrentGridState()
                         }
                     }
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        scope.cancel()
     }
 }
 
@@ -66,7 +72,9 @@ fun PathFindingApp(cell: List<List<CellData>>, onClick: (Position) -> Unit) {
     ) {
         PathFindingUi(cell, onClick)
         Button(onClick = {
-            dijkstra(state)
+            scope.launch {
+                dijkstra(state)
+            }
         }) {
             Text("Visualize")
         }

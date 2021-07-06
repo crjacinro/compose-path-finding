@@ -47,5 +47,6 @@ data class CellData(
     var type: CellType,
     val position: Position,
     var distance: Int = Int.MAX_VALUE,
-    var previousShortestCell: CellData? = null
+    var previousShortestCell: CellData? = null,
+    var id: Int = (0..Int.MAX_VALUE).random()
 )
