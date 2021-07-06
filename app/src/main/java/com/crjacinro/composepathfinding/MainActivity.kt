@@ -29,7 +29,7 @@ import com.crjacinro.composepathfinding.ui.theme.ComposePathFindingTheme
 import kotlinx.coroutines.*
 
 private val state = State()
-private val scope = CoroutineScope(Dispatchers.Main)
+private val scope = CoroutineScope(Dispatchers.Default)
 
 @ExperimentalFoundationApi
 class MainActivity : ComponentActivity() {
@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
                     PathFindingApp(currentGridState.value, onCellClicked)
                     LaunchedEffect(Unit) {
                         while (true) {
-                            delay(80.toLong())
+                            delay(GAME_SPEED)
                             currentGridState.value = state.drawCurrentGridState()
                         }
                     }

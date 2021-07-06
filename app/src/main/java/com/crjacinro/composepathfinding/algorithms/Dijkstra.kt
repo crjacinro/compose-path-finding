@@ -32,7 +32,7 @@ suspend fun dijkstra(gridState: State): List<CellData> {
         }
         updateUnvisitedNeighbors(closestCell, gridState, unvisitedNodes)
 
-        delay(80)
+        delay(GAME_SPEED)
     }
 
     Log.d("dijkstra", "end")
