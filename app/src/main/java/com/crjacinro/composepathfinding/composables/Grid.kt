@@ -13,8 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.crjacinro.composepathfinding.Cell
-import com.crjacinro.composepathfinding.CellData
 import com.crjacinro.composepathfinding.NUMBER_OF_COLUMNS
 import com.crjacinro.composepathfinding.Position
 

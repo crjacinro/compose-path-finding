@@ -1,6 +1,8 @@
 package com.crjacinro.composepathfinding.algorithms
 
 import com.crjacinro.composepathfinding.*
+import com.crjacinro.composepathfinding.composables.CellData
+import com.crjacinro.composepathfinding.composables.CellType
 import kotlinx.coroutines.delay
 
 suspend fun startDijkstra(gridState: State): List<CellData> {

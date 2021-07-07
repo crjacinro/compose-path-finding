@@ -1,4 +1,4 @@
-package com.crjacinro.composepathfinding
+package com.crjacinro.composepathfinding.composables
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.crjacinro.composepathfinding.Position
 
 @Composable
 fun Cell(cellData: CellData, onClick: (Position) -> Unit) {
@@ -37,7 +38,6 @@ private fun getBackgroundByType(cellData: CellData): Color {
         CellType.FINISH -> Color.Green
     }
 }
-
 
 enum class CellType {
     START,

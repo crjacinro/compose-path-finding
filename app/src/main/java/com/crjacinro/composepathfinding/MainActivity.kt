@@ -16,6 +16,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import com.crjacinro.composepathfinding.algorithms.startDijkstra
+import com.crjacinro.composepathfinding.composables.CellData
+import com.crjacinro.composepathfinding.composables.CellType
 import com.crjacinro.composepathfinding.composables.PathFindingGrid
 import com.crjacinro.composepathfinding.ui.theme.ComposePathFindingTheme
 import kotlinx.coroutines.*

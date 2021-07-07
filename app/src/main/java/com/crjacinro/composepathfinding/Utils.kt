@@ -1,5 +1,8 @@
 package com.crjacinro.composepathfinding
 
+import com.crjacinro.composepathfinding.composables.CellData
+import com.crjacinro.composepathfinding.composables.CellType
+
 fun getGridWithClearBackground(): MutableList<MutableList<CellData>> {
     val mutableGrid = MutableList(NUMBER_OF_ROWS) {
         MutableList(NUMBER_OF_COLUMNS) {

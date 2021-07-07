@@ -1,5 +1,7 @@
 package com.crjacinro.composepathfinding
 
+import com.crjacinro.composepathfinding.composables.CellData
+import com.crjacinro.composepathfinding.composables.CellType
 import kotlinx.coroutines.delay
 
 class State {
