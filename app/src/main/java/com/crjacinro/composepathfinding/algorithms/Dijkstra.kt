@@ -11,10 +11,12 @@ suspend fun dijkstra(gridState: State): List<CellData> {
         sortNodesByDistance(unvisitedNodes)
 
         val closestCell = unvisitedNodes.shift()
-        if (closestCell.type == CellType.WALL) continue
+        if (closestCell.type == CellType.WALL) {
+            continue
+        }
         if (closestCell.distance == Int.MAX_VALUE) return visitedNodesInOrder
 
-        gridState.updateCellTypeAtPosition(closestCell.position, CellType.VISITED)
+        gridState.setCellVisitedAtPosition(closestCell.position)
         visitedNodesInOrder.add(closestCell)
 
         if (closestCell.isAtPosition(gridState.getFinishPosition())) return visitedNodesInOrder
@@ -36,8 +38,10 @@ fun updateUnvisitedNeighbors(cell: CellData, gridState: State, gridList: Mutable
     for (neighbor in unvisitedNeighbors) {
         val index = gridList.findIndexByCell(neighbor)
 
-        gridList[index].distance = cell.distance + 1
-        gridList[index].previousShortestCell = cell
+        if (index != -1) {
+            gridList[index].distance = cell.distance + 1
+            gridList[index].previousShortestCell = cell
+        }
     }
 }
 
@@ -55,5 +59,5 @@ fun getUnvisitedNeighbors(
     if (column > 0) neighbors.add(grid[row][column - 1])
     if (column < grid[0].size - 1) neighbors.add(grid[row][column + 1])
 
-    return neighbors.filter { it.type != CellType.VISITED }
+    return neighbors.filter { !it.isVisited }
 }

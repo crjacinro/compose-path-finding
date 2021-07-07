@@ -19,33 +19,36 @@ fun Cell(cellData: CellData, onClick: (Position) -> Unit) {
         .padding(0.dp)
         .border(BorderStroke(1.dp, Color.Gray))
         .height(16.dp)
-        .background(getBackgroundByType(cellData.type))
+        .background(getBackgroundByType(cellData))
         .fillMaxWidth()
         .clickable { onClick(cellData.position) }
 
     Box(modifier = boxModifier)
 }
 
-private fun getBackgroundByType(cellType: CellType) =
-    when (cellType) {
+private fun getBackgroundByType(cellData: CellData): Color {
+    if (cellData.isVisited && cellData.type != CellType.START && cellData.type != CellType.FINISH) return Color.Blue
+
+    return when (cellData.type) {
         CellType.BACKGROUND -> Color.White
         CellType.WALL -> Color.Black
-        CellType.VISITED -> Color.Blue
         CellType.START -> Color.Red
         CellType.FINISH -> Color.Green
     }
+}
+
 
 enum class CellType {
     START,
     FINISH,
     WALL,
     BACKGROUND,
-    VISITED,
 }
 
 data class CellData(
     var type: CellType,
     val position: Position,
+    val isVisited: Boolean = false,
     var distance: Int = Int.MAX_VALUE,
     var previousShortestCell: CellData? = null,
     var id: Int = (0..Int.MAX_VALUE).random()

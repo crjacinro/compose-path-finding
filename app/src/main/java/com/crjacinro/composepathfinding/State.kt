@@ -31,6 +31,10 @@ class State {
         gridState[p.row][p.column] = gridState[p.row][p.column].copy(type = cellType, position = p)
     }
 
+    fun setCellVisitedAtPosition(p: Position) {
+        gridState[p.row][p.column] = gridState[p.row][p.column].copy(isVisited = true, position = p)
+    }
+
     private fun addStartAndFinishGrids() {
         gridState[startPosition.row][startPosition.column] =
             CellData(CellType.START, startPosition, distance = 0)
