@@ -3,7 +3,12 @@ package com.crjacinro.composepathfinding.algorithms
 import com.crjacinro.composepathfinding.*
 import kotlinx.coroutines.delay
 
-suspend fun dijkstra(gridState: State): List<CellData> {
+suspend fun startDijkstra(gridState: State): List<CellData> {
+    animatedDijkstra(gridState)
+    return getShortestPathOrder(gridState.getFinishCell())
+}
+
+private suspend fun animatedDijkstra(gridState: State): List<CellData> {
     val visitedNodesInOrder = mutableListOf<CellData>()
     val unvisitedNodes = gridState.getCurrentGrid().toLinearGrid()
 
@@ -17,7 +22,7 @@ suspend fun dijkstra(gridState: State): List<CellData> {
         if (closestCell.distance == Int.MAX_VALUE) return visitedNodesInOrder
 
         gridState.setCellVisitedAtPosition(closestCell.position)
-        visitedNodesInOrder.add(closestCell)
+        visitedNodesInOrder.add(gridState.getCellAtPosition(closestCell.position))
 
         if (closestCell.isAtPosition(gridState.getFinishPosition())) return visitedNodesInOrder
         updateUnvisitedNeighbors(closestCell, gridState, unvisitedNodes)
@@ -28,11 +33,25 @@ suspend fun dijkstra(gridState: State): List<CellData> {
     return visitedNodesInOrder
 }
 
-fun sortNodesByDistance(unvisitedNodes: MutableList<CellData>) {
+private fun getShortestPathOrder(finishedCell: CellData): List<CellData> {
+    val nodesInShortestPathOrder = mutableListOf<CellData>()
+    var currentCell: CellData? = finishedCell
+    while (currentCell != null) {
+        nodesInShortestPathOrder.add(0, currentCell)
+        currentCell = currentCell.previousShortestCell
+    }
+    return nodesInShortestPathOrder
+}
+
+private fun sortNodesByDistance(unvisitedNodes: MutableList<CellData>) {
     unvisitedNodes.sortBy { it.distance }
 }
 
-fun updateUnvisitedNeighbors(cell: CellData, gridState: State, gridList: MutableList<CellData>) {
+private fun updateUnvisitedNeighbors(
+    cell: CellData,
+    gridState: State,
+    gridList: MutableList<CellData>
+) {
     val unvisitedNeighbors = getUnvisitedNeighbors(cell, gridState)
 
     for (neighbor in unvisitedNeighbors) {
@@ -45,8 +64,7 @@ fun updateUnvisitedNeighbors(cell: CellData, gridState: State, gridList: Mutable
     }
 }
 
-
-fun getUnvisitedNeighbors(
+private fun getUnvisitedNeighbors(
     cell: CellData,
     gridState: State
 ): List<CellData> {

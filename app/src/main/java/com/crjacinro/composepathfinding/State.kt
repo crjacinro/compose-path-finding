@@ -1,5 +1,7 @@
 package com.crjacinro.composepathfinding
 
+import kotlinx.coroutines.delay
+
 class State {
     private var gridState: MutableList<MutableList<CellData>>
 
@@ -28,12 +30,24 @@ class State {
     fun getCurrentGrid(): List<List<CellData>> = gridState
 
     fun updateCellTypeAtPosition(p: Position, cellType: CellType) {
-        gridState[p.row][p.column] = gridState[p.row][p.column].copy(type = cellType, position = p)
+        gridState[p.row][p.column] = getCellAtPosition(p).copy(type = cellType)
     }
 
     fun setCellVisitedAtPosition(p: Position) {
-        gridState[p.row][p.column] = gridState[p.row][p.column].copy(isVisited = true, position = p)
+        gridState[p.row][p.column] = getCellAtPosition(p).copy(isVisited = true)
     }
+
+    suspend fun animatedShortestPath(shortestPathPositions: List<CellData>) {
+        shortestPathPositions.forEach {
+            val p = it.position
+            gridState[p.row][p.column] = getCellAtPosition(p).copy(isShortestPath = true)
+            delay(GAME_DELAY_IN_MS)
+        }
+    }
+
+    fun getFinishCell() = getCellAtPosition(finishPosition)
+
+    fun getCellAtPosition(p: Position) = gridState[p.row][p.column]
 
     private fun addStartAndFinishGrids() {
         gridState[startPosition.row][startPosition.column] =

@@ -27,6 +27,7 @@ fun Cell(cellData: CellData, onClick: (Position) -> Unit) {
 }
 
 private fun getBackgroundByType(cellData: CellData): Color {
+    if (cellData.isShortestPath && cellData.type != CellType.START && cellData.type != CellType.FINISH) return Color.Yellow
     if (cellData.isVisited && cellData.type != CellType.START && cellData.type != CellType.FINISH) return Color.Blue
 
     return when (cellData.type) {
@@ -49,6 +50,7 @@ data class CellData(
     var type: CellType,
     val position: Position,
     val isVisited: Boolean = false,
+    val isShortestPath: Boolean = false,
     var distance: Int = Int.MAX_VALUE,
     var previousShortestCell: CellData? = null,
     var id: Int = (0..Int.MAX_VALUE).random()
