@@ -1,4 +1,4 @@
-package com.crjacinro.composepathfinding.composables
+package com.crjacinro.composepathfinding.ui.composables
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -12,7 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.crjacinro.composepathfinding.Position
+import com.crjacinro.composepathfinding.data.CellData
+import com.crjacinro.composepathfinding.data.Position
+import com.crjacinro.composepathfinding.ui.theme.Purple200
 
 @Composable
 fun Cell(cellData: CellData, onClick: (Position) -> Unit) {
@@ -29,7 +31,7 @@ fun Cell(cellData: CellData, onClick: (Position) -> Unit) {
 
 private fun getBackgroundByType(cellData: CellData): Color {
     if (cellData.isShortestPath && cellData.type != CellType.START && cellData.type != CellType.FINISH) return Color.Yellow
-    if (cellData.isVisited && cellData.type != CellType.START && cellData.type != CellType.FINISH) return Color.Blue
+    if (cellData.isVisited && cellData.type != CellType.START && cellData.type != CellType.FINISH) return Purple200
 
     return when (cellData.type) {
         CellType.BACKGROUND -> Color.White
@@ -45,13 +47,3 @@ enum class CellType {
     WALL,
     BACKGROUND,
 }
-
-data class CellData(
-    var type: CellType,
-    val position: Position,
-    val isVisited: Boolean = false,
-    val isShortestPath: Boolean = false,
-    var distance: Int = Int.MAX_VALUE,
-    var previousShortestCell: CellData? = null,
-    var id: Int = (0..Int.MAX_VALUE).random()
-)

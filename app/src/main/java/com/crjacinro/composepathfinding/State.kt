@@ -1,16 +1,21 @@
 package com.crjacinro.composepathfinding
 
-import com.crjacinro.composepathfinding.composables.CellData
-import com.crjacinro.composepathfinding.composables.CellType
+import com.crjacinro.composepathfinding.data.CellData
+import com.crjacinro.composepathfinding.data.Position
+import com.crjacinro.composepathfinding.ui.composables.CellType
 import kotlinx.coroutines.delay
 
 class State {
-    private var gridState: MutableList<MutableList<CellData>>
+    private var gridState: MutableList<MutableList<CellData>> = mutableListOf()
 
     private val startPosition = Position((NUMBER_OF_ROWS / 2), (NUMBER_OF_COLUMNS / 4))
     private val finishPosition = Position((NUMBER_OF_ROWS / 2), (NUMBER_OF_COLUMNS / 4) * 3)
 
     init {
+        clear()
+    }
+
+    fun clear() {
         gridState = getInitGridState()
         addStartAndFinishGrids()
     }

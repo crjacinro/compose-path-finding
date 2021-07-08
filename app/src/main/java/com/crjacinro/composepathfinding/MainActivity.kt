@@ -6,19 +6,24 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material.Button
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.crjacinro.composepathfinding.algorithms.startDijkstra
-import com.crjacinro.composepathfinding.composables.CellData
-import com.crjacinro.composepathfinding.composables.CellType
-import com.crjacinro.composepathfinding.composables.PathFindingGrid
+import com.crjacinro.composepathfinding.data.CellData
+import com.crjacinro.composepathfinding.data.Position
+import com.crjacinro.composepathfinding.ui.composables.CellType
+import com.crjacinro.composepathfinding.ui.composables.ClearButton
+import com.crjacinro.composepathfinding.ui.composables.PathFindingGrid
+import com.crjacinro.composepathfinding.ui.composables.VisualizeButton
 import com.crjacinro.composepathfinding.ui.theme.ComposePathFindingTheme
 import kotlinx.coroutines.*
 
@@ -71,14 +76,23 @@ fun PathFindingUi(cell: List<List<CellData>>, onClick: (Position) -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         PathFindingGrid(cell.toLinearGrid(), onClick)
-        Button(onClick = {
-            scope.launch {
-                val shortestPath = startDijkstra(state)
-
-                state.animatedShortestPath(shortestPath)
-            }
-        }) {
-            Text("Visualize")
+        Row {
+            VisualizeButton(onClick = onVisualizeClicked)
+            ClearButton(modifier = Modifier.padding(start = 16.dp), onClearClicked)
         }
+    }
+}
+
+private val onVisualizeClicked: () -> Unit = {
+    scope.launch {
+        val shortestPath = startDijkstra(state)
+
+        state.animatedShortestPath(shortestPath)
+    }
+}
+
+private val onClearClicked: () -> Unit = {
+    scope.launch {
+        state.clear()
     }
 }

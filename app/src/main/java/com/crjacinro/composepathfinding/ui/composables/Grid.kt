@@ -1,4 +1,4 @@
-package com.crjacinro.composepathfinding.composables
+package com.crjacinro.composepathfinding.ui.composables
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -14,7 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.crjacinro.composepathfinding.NUMBER_OF_COLUMNS
-import com.crjacinro.composepathfinding.Position
+import com.crjacinro.composepathfinding.data.CellData
+import com.crjacinro.composepathfinding.data.Position
 
 @ExperimentalFoundationApi
 @Composable
