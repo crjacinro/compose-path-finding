@@ -17,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.crjacinro.composepathfinding.algorithms.startDijkstra
 import com.crjacinro.composepathfinding.data.CellData
 import com.crjacinro.composepathfinding.data.Position
 import com.crjacinro.composepathfinding.ui.composables.CellType
@@ -71,28 +70,24 @@ fun PathFindingApp() {
 @ExperimentalFoundationApi
 @Composable
 fun PathFindingUi(cell: List<List<CellData>>, onClick: (Position) -> Unit) {
+    val isVisualizeEnabled = remember { mutableStateOf(true) }
+    val onVisualized: () -> Unit = {
+        scope.launch { state.animatedShortestPath() }
+        isVisualizeEnabled.value = false
+    }
+    val onCleared: () -> Unit = {
+        scope.launch { state.clear() }
+        isVisualizeEnabled.value = true
+    }
+
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         PathFindingGrid(cell.toLinearGrid(), onClick)
         Row {
-            VisualizeButton(onClick = onVisualizeClicked)
-            ClearButton(modifier = Modifier.padding(start = 16.dp), onClearClicked)
+            VisualizeButton(onClick = onVisualized, enabled = isVisualizeEnabled.value)
+            ClearButton(modifier = Modifier.padding(start = 16.dp), onCleared)
         }
-    }
-}
-
-private val onVisualizeClicked: () -> Unit = {
-    scope.launch {
-        val shortestPath = startDijkstra(state)
-
-        state.animatedShortestPath(shortestPath)
-    }
-}
-
-private val onClearClicked: () -> Unit = {
-    scope.launch {
-        state.clear()
     }
 }

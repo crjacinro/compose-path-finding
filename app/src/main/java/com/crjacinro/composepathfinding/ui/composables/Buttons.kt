@@ -11,11 +11,12 @@ import androidx.compose.ui.graphics.Color
 
 @ExperimentalFoundationApi
 @Composable
-fun VisualizeButton(modifier: Modifier = Modifier, onClick: () -> (Unit)) {
+fun VisualizeButton(modifier: Modifier = Modifier, onClick: () -> (Unit), enabled: Boolean = true) {
     ButtonWithText(
         modifier,
         onClick = onClick,
         label = "Visualize",
+        enabled = enabled,
         colors = ButtonDefaults.buttonColors(backgroundColor = Color.Blue)
     )
 }
@@ -35,11 +36,12 @@ fun ClearButton(modifier: Modifier = Modifier, onClick: () -> (Unit)) {
 @Composable
 private fun ButtonWithText(
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     label: String,
     onClick: () -> (Unit),
     colors: ButtonColors
 ) {
-    Button(onClick = onClick, modifier = modifier, colors = colors) {
+    Button(onClick = onClick, modifier = modifier, colors = colors, enabled = enabled) {
         Text(text = label, color = Color.White)
     }
 }

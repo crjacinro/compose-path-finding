@@ -1,5 +1,6 @@
 package com.crjacinro.composepathfinding
 
+import com.crjacinro.composepathfinding.algorithms.startDijkstra
 import com.crjacinro.composepathfinding.data.CellData
 import com.crjacinro.composepathfinding.data.Position
 import com.crjacinro.composepathfinding.ui.composables.CellType
@@ -44,8 +45,9 @@ class State {
         gridState[p.row][p.column] = getCellAtPosition(p).copy(isVisited = true)
     }
 
-    suspend fun animatedShortestPath(shortestPathPositions: List<CellData>) {
-        shortestPathPositions.forEach {
+    suspend fun animatedShortestPath() {
+        val shortestPath = startDijkstra(this)
+        shortestPath.forEach {
             val p = it.position
             gridState[p.row][p.column] = getCellAtPosition(p).copy(isShortestPath = true)
             delay(GAME_DELAY_IN_MS)
