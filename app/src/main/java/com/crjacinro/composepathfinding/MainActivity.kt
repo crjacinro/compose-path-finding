@@ -19,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.crjacinro.composepathfinding.data.CellData
 import com.crjacinro.composepathfinding.data.Position
-import com.crjacinro.composepathfinding.ui.composables.CellType
 import com.crjacinro.composepathfinding.ui.composables.ClearButton
 import com.crjacinro.composepathfinding.ui.composables.PathFindingGrid
 import com.crjacinro.composepathfinding.ui.composables.VisualizeButton
@@ -55,7 +54,9 @@ fun PathFindingApp() {
     val currentGridState = remember { mutableStateOf(state.drawCurrentGridState()) }
 
     val onCellClicked = { p: Position ->
-        state.updateCellTypeAtPosition(p, CellType.WALL)
+        if (state.isPositionNotAtStartOrFinish(p)) {
+            state.toggleCellTypeToWall(p)
+        }
     }
 
     PathFindingUi(currentGridState.value, onCellClicked)

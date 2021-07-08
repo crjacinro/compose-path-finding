@@ -37,7 +37,20 @@ class State {
 
     fun getCurrentGrid(): List<List<CellData>> = gridState
 
-    fun updateCellTypeAtPosition(p: Position, cellType: CellType) {
+    fun toggleCellTypeToWall(p: Position) {
+        if (getCellAtPosition(p).type == CellType.WALL) {
+            updateCellTypeAtPosition(p, CellType.BACKGROUND)
+        } else {
+            updateCellTypeAtPosition(p, CellType.WALL)
+        }
+    }
+
+    fun isPositionNotAtStartOrFinish(p: Position) =
+        getCellAtPosition(p).type != CellType.START &&
+                getCellAtPosition(p).type != CellType.FINISH
+
+
+    private fun updateCellTypeAtPosition(p: Position, cellType: CellType) {
         gridState[p.row][p.column] = getCellAtPosition(p).copy(type = cellType)
     }
 
