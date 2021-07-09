@@ -16,10 +16,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.crjacinro.composepathfinding.data.CellData
 import com.crjacinro.composepathfinding.data.Position
 import com.crjacinro.composepathfinding.ui.composables.ClearButton
+import com.crjacinro.composepathfinding.ui.composables.Legend
 import com.crjacinro.composepathfinding.ui.composables.PathFindingGrid
 import com.crjacinro.composepathfinding.ui.composables.VisualizeButton
 import com.crjacinro.composepathfinding.ui.theme.ComposePathFindingTheme
@@ -83,13 +85,23 @@ fun PathFindingUi(cell: List<List<CellData>>, onClick: (Position) -> Unit) {
     }
 
     Column(
+        modifier = Modifier.padding(8.dp),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         PathFindingGrid(cell.toLinearGrid(), onClick)
-        Row {
-            VisualizeButton(onClick = onVisualized, enabled = isVisualizeEnabled.value)
-            ClearButton(modifier = Modifier.padding(start = 16.dp), onCleared)
+
+        Row(modifier = Modifier.padding(8.dp)) {
+            Legend("Start", Color.Red)
+            Legend("End", Color.Green)
+            VisualizeButton(
+                modifier = Modifier.padding(start = 24.dp),
+                onClick = onVisualized,
+                enabled = isVisualizeEnabled.value
+            )
+            ClearButton(modifier = Modifier.padding(horizontal = 24.dp), onCleared)
+            Legend("Visited", Color.Magenta)
+            Legend("Wall", Color.Black)
         }
     }
 }
