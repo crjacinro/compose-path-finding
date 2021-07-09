@@ -3,7 +3,7 @@ package com.crjacinro.composepathfinding
 import androidx.compose.ui.graphics.Color
 import com.crjacinro.composepathfinding.ui.theme.Purple200
 
-const val NUMBER_OF_ROWS = 18
+const val NUMBER_OF_ROWS = 19
 const val NUMBER_OF_COLUMNS = 45
 
 const val GAME_DELAY_IN_MS = 10.toLong()
