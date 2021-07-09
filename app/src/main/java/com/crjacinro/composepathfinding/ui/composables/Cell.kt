@@ -12,9 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.crjacinro.composepathfinding.*
 import com.crjacinro.composepathfinding.data.CellData
 import com.crjacinro.composepathfinding.data.Position
-import com.crjacinro.composepathfinding.ui.theme.Purple200
 
 @Composable
 fun Cell(cellData: CellData, onClick: (Position) -> Unit) {
@@ -30,14 +30,14 @@ fun Cell(cellData: CellData, onClick: (Position) -> Unit) {
 }
 
 private fun getBackgroundByType(cellData: CellData): Color {
-    if (cellData.isShortestPath && cellData.type != CellType.START && cellData.type != CellType.FINISH) return Color.Yellow
-    if (cellData.isVisited && cellData.type != CellType.START && cellData.type != CellType.FINISH) return Purple200
+    if (cellData.isShortestPath && cellData.type != CellType.START && cellData.type != CellType.FINISH) return CELL_PATH
+    if (cellData.isVisited && cellData.type != CellType.START && cellData.type != CellType.FINISH) return CELL_VISITED
 
     return when (cellData.type) {
-        CellType.BACKGROUND -> Color.White
-        CellType.WALL -> Color.Black
-        CellType.START -> Color.Red
-        CellType.FINISH -> Color.Green
+        CellType.BACKGROUND -> CELL_BACKGROUND
+        CellType.WALL -> CELL_WALL
+        CellType.START -> CELL_START
+        CellType.FINISH -> CELL_FINISH
     }
 }
 

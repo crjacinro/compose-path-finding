@@ -16,7 +16,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.crjacinro.composepathfinding.data.CellData
 import com.crjacinro.composepathfinding.data.Position
@@ -92,16 +91,16 @@ fun PathFindingUi(cell: List<List<CellData>>, onClick: (Position) -> Unit) {
         PathFindingGrid(cell.toLinearGrid(), onClick)
 
         Row(modifier = Modifier.padding(8.dp)) {
-            Legend("Start", Color.Red)
-            Legend("End", Color.Green)
+            Legend("Start", CELL_START)
+            Legend("Finish", CELL_FINISH)
             VisualizeButton(
                 modifier = Modifier.padding(start = 24.dp),
                 onClick = onVisualized,
                 enabled = isVisualizeEnabled.value
             )
             ClearButton(modifier = Modifier.padding(horizontal = 24.dp), onCleared)
-            Legend("Visited", Color.Magenta)
-            Legend("Wall", Color.Black)
+            Legend("Visited", CELL_VISITED)
+            Legend("Wall", CELL_WALL)
         }
     }
 }
