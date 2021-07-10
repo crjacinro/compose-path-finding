@@ -13,7 +13,9 @@ The algorithm used is [Dijkstra's Algorithm](https://en.wikipedia.org/wiki/Dijks
 
 ## Technologies
 
+- [Kotlin 1.5.10](https://kotlinlang.org/)
 - [Compose UI](https://developer.android.com/jetpack/compose)
+- [Kotlin Coroutines](https://developer.android.com/kotlin/coroutines)
 
 ## Features
 
