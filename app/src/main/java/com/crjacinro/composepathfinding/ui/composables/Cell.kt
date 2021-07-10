@@ -1,5 +1,7 @@
 package com.crjacinro.composepathfinding.ui.composables
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,14 +20,18 @@ import com.crjacinro.composepathfinding.data.Position
 
 @Composable
 fun Cell(cellData: CellData, onClick: (Position) -> Unit) {
+    val bgColor = animateColorAsState(
+        targetValue = getBackgroundByType(cellData),
+        animationSpec = tween(durationMillis = 700)
+    )
+
     val boxModifier = Modifier
         .padding(0.dp)
         .border(BorderStroke(1.dp, Color.Gray))
         .height(16.dp)
-        .background(getBackgroundByType(cellData))
+        .background(bgColor.value)
         .fillMaxWidth()
         .clickable { onClick(cellData.position) }
-
     Box(modifier = boxModifier)
 }
 

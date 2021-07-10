@@ -55,7 +55,7 @@ fun PathFindingApp() {
     val currentGridState = remember { mutableStateOf(state.drawCurrentGridState()) }
 
     val onCellClicked = { p: Position ->
-        if (state.isPositionNotAtStartOrFinish(p)) {
+        if (state.isPositionNotAtStartOrFinish(p) && !state.isVisualizing) {
             state.toggleCellTypeToWall(p)
             currentGridState.value = state.drawCurrentGridState()
         }

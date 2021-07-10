@@ -12,12 +12,16 @@ class State {
     private val startPosition = Position((NUMBER_OF_ROWS / 2), (NUMBER_OF_COLUMNS / 4))
     private val finishPosition = Position((NUMBER_OF_ROWS / 2), (NUMBER_OF_COLUMNS / 4) * 3)
 
+    var isVisualizing = false
+        private set
+
     init {
         clear()
     }
 
     fun clear() {
         gridState = getInitGridState()
+        isVisualizing = false
         addStartAndFinishGrids()
     }
 
@@ -59,6 +63,7 @@ class State {
     }
 
     suspend fun animatedShortestPath() {
+        isVisualizing = true
         val shortestPath = startDijkstra(this)
         shortestPath.forEach {
             val p = it.position
