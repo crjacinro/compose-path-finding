@@ -47,3 +47,8 @@ fun MutableList<CellData>.findIndexByCell(cell: CellData): Int {
     }
     return -1
 }
+
+fun weightedRandomWall(): CellType {
+    val random = (0..100).random()
+    return if (random in 0..70) CellType.BACKGROUND else CellType.WALL
+}

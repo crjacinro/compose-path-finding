@@ -19,10 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.crjacinro.composepathfinding.data.CellData
 import com.crjacinro.composepathfinding.data.Position
-import com.crjacinro.composepathfinding.ui.composables.ClearButton
-import com.crjacinro.composepathfinding.ui.composables.Legend
-import com.crjacinro.composepathfinding.ui.composables.PathFindingGrid
-import com.crjacinro.composepathfinding.ui.composables.VisualizeButton
+import com.crjacinro.composepathfinding.ui.composables.*
 import com.crjacinro.composepathfinding.ui.theme.ComposePathFindingTheme
 import kotlinx.coroutines.*
 
@@ -82,6 +79,9 @@ fun PathFindingUi(cell: List<List<CellData>>, onClick: (Position) -> Unit) {
         scope.launch { state.clear() }
         isVisualizeEnabled.value = true
     }
+    val onRandomizeWalls: () -> Unit = {
+        scope.launch { state.randomizeWalls() }
+    }
 
     Column(
         modifier = Modifier.padding(8.dp),
@@ -94,11 +94,16 @@ fun PathFindingUi(cell: List<List<CellData>>, onClick: (Position) -> Unit) {
             Legend("Start", CELL_START)
             Legend("Finish", CELL_FINISH)
             VisualizeButton(
-                modifier = Modifier.padding(start = 24.dp),
+                modifier = Modifier.padding(start = 16.dp),
                 onClick = onVisualized,
                 enabled = isVisualizeEnabled.value
             )
-            ClearButton(modifier = Modifier.padding(horizontal = 24.dp), onCleared)
+            RandomWallsButton(
+                modifier = Modifier.padding(start = 16.dp),
+                onClick = onRandomizeWalls,
+                enabled = isVisualizeEnabled.value
+            )
+            ClearButton(modifier = Modifier.padding(horizontal = 16.dp), onCleared)
             Legend("Visited", CELL_VISITED)
             Legend("Wall", CELL_WALL)
         }

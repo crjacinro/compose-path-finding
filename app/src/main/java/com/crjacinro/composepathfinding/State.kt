@@ -25,6 +25,22 @@ class State {
         addStartAndFinishGrids()
     }
 
+    suspend fun randomizeWalls() {
+        clear()
+
+        for (i in 0 until gridState.size) {
+            for (j in 0 until gridState[i].size) {
+                val position = gridState[i][j].position
+
+                if (isPositionNotAtStartOrFinish(position)) {
+                    updateCellTypeAtPosition(position, weightedRandomWall())
+                }
+
+                delay(5.toLong())
+            }
+        }
+    }
+
     fun drawCurrentGridState(): List<List<CellData>> {
         val updatedGrid = getInitGridState()
 

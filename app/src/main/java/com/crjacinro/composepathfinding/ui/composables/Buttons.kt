@@ -34,6 +34,22 @@ fun ClearButton(modifier: Modifier = Modifier, onClick: () -> (Unit)) {
 
 @ExperimentalFoundationApi
 @Composable
+fun RandomWallsButton(
+    modifier: Modifier = Modifier,
+    onClick: () -> (Unit),
+    enabled: Boolean = true
+) {
+    ButtonWithText(
+        modifier,
+        onClick = onClick,
+        label = "Random Walls",
+        enabled = enabled,
+        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Black)
+    )
+}
+
+@ExperimentalFoundationApi
+@Composable
 private fun ButtonWithText(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,

@@ -32,6 +32,7 @@ fun Cell(cellData: CellData, onClick: (Position) -> Unit) {
         .background(bgColor.value)
         .fillMaxWidth()
         .clickable { onClick(cellData.position) }
+
     Box(modifier = boxModifier)
 }
 
